@@ -50,10 +50,7 @@ class LinkedList:
 
     def __str__(self):
         """Вызывается функциями str, print и format. Возвращает строковое представление объекта."""
-        result = []
-        current_node = self.head
         result = [value for value in self]
-
         return f"{result}"
 
     def __repr__(self):
