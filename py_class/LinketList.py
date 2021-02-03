@@ -7,6 +7,7 @@ class LinkedList:
         Внутренний класс, класса LinkedList.
         Пользователь напрямую не работает с узлами списка, узлами оперирует список.
         """
+
         def __init__(self, value: Any, next_: Optional['Node'] = None):
             """
             Создаем новый узел для односвязного списка
@@ -68,7 +69,10 @@ class LinkedList:
         ...
 
     def __getitem__(self, item: int) -> Any:
-        ...
+        current_node = self.head
+        for _ in range(item):
+            current_node = current_node.next
+        return current_node.value
 
     def __setitem__(self, key, value):
         ...
@@ -115,4 +119,4 @@ class LinkedList:
 
 if __name__ == '__main__':
     ll = LinkedList([1, 2, 3, 4])
-    print(ll)
+    print(ll[0])
