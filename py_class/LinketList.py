@@ -73,17 +73,27 @@ class LinkedList:
         if not isinstance(item, int):
             raise TypeError('Введенное значение не int')
 
-        if not 0 <= item < self.len_ :
+        if not 0 <= item < self.len_:
             raise IndexError('Индекс вышел за пределы списка')
 
         current_node = self.head
+
         for _ in range(item):
             current_node = current_node.next
         return current_node.value
 
     def __setitem__(self, key, value):
-        ...
+        if not isinstance(key, int):
+            raise TypeError('Введенное значение не int')
 
+        if not 0 <= key < self.len_:
+            raise IndexError('Индекс вышел за пределы списка')
+
+        current_node = self.head
+
+        for _ in range(key):
+            current_node = current_node.next
+        current_node.value = value
 
     def append(self, value: Any):
         """Добавление элемента в конец связного списка"""
@@ -127,4 +137,6 @@ class LinkedList:
 
 if __name__ == '__main__':
     ll = LinkedList([1, 2, 3, 4])
-    print(ll[0])
+    print(ll)
+    ll[1] = 5
+    print(ll)
