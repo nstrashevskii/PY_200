@@ -42,7 +42,7 @@ class LinkedList:
     def __init__(self, data: Sequence = None):
         """Конструктор связного списка"""
         self.len_ = 0
-        self.head = None # Node
+        self.head = None  # Node
         self.tail = self.head
 
         if data:  # ToDo Проверить, что объект итерируемый. Метод self.is_iterable
@@ -69,30 +69,26 @@ class LinkedList:
     def __len__(self):
         ...
 
-    def __getitem__(self, item: int) -> Any:
-        if not isinstance(item, int):
+    def __step_by_step(self, index: int):
+        """Встроенный метод, который возвращает узел по указанному индексу"""
+        if not isinstance(index, int):
             raise TypeError('Введенное значение не int')
 
-        if not 0 <= item < self.len_:
+        if not 0 <= index < self.len_:
             raise IndexError('Индекс вышел за пределы списка')
 
         current_node = self.head
 
-        for _ in range(item):
+        for _ in range(index):
             current_node = current_node.next
+        return current_node
+
+    def __getitem__(self, item: int) -> Any:
+        current_node = self.__step_by_step(item)
         return current_node.value
 
     def __setitem__(self, key: int, value: Any):
-        if not isinstance(key, int):
-            raise TypeError('Введенное значение не int')
-
-        if not 0 <= key < self.len_:
-            raise IndexError('Индекс вышел за пределы списка')
-
-        current_node = self.head
-
-        for _ in range(key):
-            current_node = current_node.next
+        current_node = self.__step_by_step(key)
         current_node.value = value
 
     def append(self, value: Any):
@@ -138,5 +134,5 @@ class LinkedList:
 if __name__ == '__main__':
     ll = LinkedList([1, 2, 3, 4])
     print(ll)
-    ll[1] = 5
+    ll[2] = 5
     print(ll)
