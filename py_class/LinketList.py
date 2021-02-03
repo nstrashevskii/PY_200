@@ -108,7 +108,7 @@ class LinkedList:
             self.head = insert_node
             self.__len += 1
 
-        elif 1 <= index < self.__len:
+        elif 1 <= index <= self.__len:
             insert_node = self.Node(value)
             pref_node = self.__step_by_step(index - 1)
             current_node = pref_node.next
@@ -118,7 +118,7 @@ class LinkedList:
 
             self.__len += 1
 
-        elif index >= self.__len:
+        elif index > self.__len:
             self.append(value)
 
     def clear(self) -> None:
@@ -142,5 +142,5 @@ if __name__ == '__main__':
     ll = LinkedList([1, 2, 3, 4])
     print(LinkedList.__repr__(ll))
     print(len(ll))
-    ll.insert(2, 5)
+    ll.insert(3, 5)
     print(LinkedList.__repr__(ll))
