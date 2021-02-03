@@ -52,12 +52,7 @@ class LinkedList:
         """Вызывается функциями str, print и format. Возвращает строковое представление объекта."""
         result = []
         current_node = self.head
-
-        for _ in range(self.len_ - 1):
-            result.append(current_node.value)
-            current_node = current_node.next
-
-        result.append(current_node.value)
+        result = [value for value in self]
 
         return f"{result}"
 
@@ -105,8 +100,7 @@ class LinkedList:
 
     @staticmethod
     def __linked_nodes(left: Node, right: Optional[Node]) -> None:
-        ...
-        # left.next = right
+        left.next = right
 
     def to_list(self) -> list:
         return [value for value in self]
@@ -133,6 +127,6 @@ class LinkedList:
 
 if __name__ == '__main__':
     ll = LinkedList([1, 2, 3, 4])
-    print(ll)
-    ll[2] = 5
-    print(ll)
+    print(LinkedList.__str__(ll))
+    lo = LinkedList.to_list(ll)
+    print(type(lo))
