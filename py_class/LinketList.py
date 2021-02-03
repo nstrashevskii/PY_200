@@ -41,7 +41,7 @@ class LinkedList:
 
     def __init__(self, data: Sequence = None):
         """Конструктор связного списка"""
-        self.len_ = 0
+        self.__len = 0
         self.head = None  # Node
 
         if data:  # ToDo Проверить, что объект итерируемый. Метод self.is_iterable
@@ -57,14 +57,14 @@ class LinkedList:
         return f"{type(self).__name__}({[value for value in self]})"
 
     def __len__(self):
-        ...
+        return self.__len
 
     def __step_by_step(self, index: int):
         """Встроенный метод, который возвращает узел по указанному индексу"""
         if not isinstance(index, int):
             raise TypeError('Введенное значение не int')
 
-        if not 0 <= index < self.len_:
+        if not 0 <= index < self.__len:
             raise IndexError('Индекс вышел за пределы списка')
 
         current_node = self.head
@@ -88,11 +88,11 @@ class LinkedList:
             self.head = append_node
         else:
             tail = self.head  # ToDo Завести атрибут self.tail, который будет хранить последний узел
-            for _ in range(self.len_ - 1):
+            for _ in range(self.__len - 1):
                 tail = tail.next
             self.__linked_nodes(tail, append_node)
 
-        self.len_ += 1
+        self.__len += 1
 
     @staticmethod
     def __linked_nodes(left: Node, right: Optional[Node]) -> None:
@@ -102,7 +102,24 @@ class LinkedList:
         return [value for value in self]
 
     def insert(self, index: int, value: Any) -> None:
-        ...
+        if index == 0:
+            insert_node = self.Node(value)
+            self.__linked_nodes(insert_node, self.head)
+            self.head = insert_node
+            self.__len += 1
+
+        elif 1 <= index < self.__len:
+            insert_node = self.Node(value)
+            pref_node = self.__step_by_step(index - 1)
+            current_node = pref_node.next
+
+            self.__linked_nodes(insert_node, current_node)
+            self.__linked_nodes(pref_node, insert_node)
+
+            self.__len += 1
+
+        elif index >= self.__len:
+            self.append(value)
 
     def clear(self) -> None:
         ...
@@ -124,5 +141,6 @@ class LinkedList:
 if __name__ == '__main__':
     ll = LinkedList([1, 2, 3, 4])
     print(LinkedList.__repr__(ll))
-    lo = LinkedList.to_list(ll)
-    print(type(lo))
+    print(len(ll))
+    ll.insert(2, 5)
+    print(LinkedList.__repr__(ll))
