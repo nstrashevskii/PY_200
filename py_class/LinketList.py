@@ -54,8 +54,7 @@ class LinkedList:
 
     def __repr__(self):
         """Метод должен возвращать строку, показывающую, как может быть создан экземпляр."""
-        result = LinkedList([value for value in self])
-        return f"{result}"
+        return f"{type(self).__name__}{[value for value in self]}"
 
     def __len__(self):
         ...
