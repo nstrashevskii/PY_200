@@ -82,7 +82,7 @@ class LinkedList:
             current_node = current_node.next
         return current_node.value
 
-    def __setitem__(self, key, value):
+    def __setitem__(self, key: int, value: Any):
         if not isinstance(key, int):
             raise TypeError('Введенное значение не int')
 
