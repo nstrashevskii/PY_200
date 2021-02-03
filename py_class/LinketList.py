@@ -50,12 +50,12 @@ class LinkedList:
 
     def __str__(self):
         """Вызывается функциями str, print и format. Возвращает строковое представление объекта."""
-        result = [value for value in self]
-        return f"{result}"
+        return f"{[value for value in self]}"
 
     def __repr__(self):
         """Метод должен возвращать строку, показывающую, как может быть создан экземпляр."""
-        return ""
+        result = LinkedList([value for value in self])
+        return f"{result}"
 
     def __len__(self):
         ...
@@ -124,6 +124,6 @@ class LinkedList:
 
 if __name__ == '__main__':
     ll = LinkedList([1, 2, 3, 4])
-    print(LinkedList.__str__(ll))
+    print(LinkedList.__repr__(ll))
     lo = LinkedList.to_list(ll)
     print(type(lo))
