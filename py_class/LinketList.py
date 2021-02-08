@@ -122,7 +122,7 @@ class LinkedList:
             self.append(value)
 
     def clear(self) -> None:
-        ...
+        self.__len = 0
 
     def index(self, value: Any) -> int:
         ...
@@ -143,4 +143,6 @@ if __name__ == '__main__':
     print(LinkedList.__repr__(ll))
     print(len(ll))
     ll.insert(3, 5)
+    print(LinkedList.__repr__(ll))
+    ll.clear()
     print(LinkedList.__repr__(ll))
