@@ -14,7 +14,6 @@ class MyDict(dict):  # ToDo Наследование от класса dict
     def __iter__(self) -> Iterator[Tuple[Hashable, Any]]:
         for i, k in self.items():
             yield i, k
-        ...  # ToDo Переопределить метод. Данный
 
 
 if __name__ == '__main__':
