@@ -42,7 +42,8 @@ class LinkedList:
     def __init__(self, data: Sequence = None):
         """Конструктор связного списка"""
         self.__len = 0
-        self.head = None  # Node
+        self.head = None
+        self.tail = None# Node
 
         if data:  # ToDo Проверить, что объект итерируемый. Метод self.is_iterable
             for value in data:
@@ -87,10 +88,10 @@ class LinkedList:
         if self.head is None:
             self.head = append_node
         else:
-            tail = self.head  # ToDo Завести атрибут self.tail, который будет хранить последний узел
+            self.tail = self.head
             for _ in range(self.__len - 1):
-                tail = tail.next
-            self.__linked_nodes(tail, append_node)
+                self.tail = self.tail.next
+            self.__linked_nodes(self.tail, append_node)
 
         self.__len += 1
 
@@ -130,10 +131,27 @@ class LinkedList:
         for i in self:
             if value == i:
                 return k
-            k = k + 1
+            k += 1
 
     def remove(self, value: Any) -> None:
-        ...
+        index = self.index(value)
+        if index == 0:
+            self.head = self.__step_by_step(1)
+            self.__len -= 1
+
+        elif 1 <= index < self.__len - 1:
+            del_node = self.Node(value)
+            pref_node = self.__step_by_step(index - 1)
+            current_node = self.__step_by_step(index + 1)
+
+            self.__linked_nodes(pref_node, current_node)
+
+            self.__len -= 1
+        elif index == self.__len - 1:
+            del_node = self.Node(value)
+            print(del_node)
+            self.tail = self.__step_by_step(index - 1)
+            self.__len -= 1
 
     def sort(self) -> None:
         ...
@@ -148,5 +166,5 @@ if __name__ == '__main__':
     print(LinkedList.__repr__(ll))
     ll.insert(3, 5)
     print(LinkedList.__repr__(ll))
-
-    print(LinkedList.index(ll, 2))
+    LinkedList.remove(ll, 4)
+    print(ll)
