@@ -127,11 +127,9 @@ class LinkedList:
         self.head = None
 
     def index(self, value: Any) -> int:
-        k = 0
-        for i in self:
-            if value == i:
-                return k
-            k += 1
+        for i in enumerate(self):
+            if value == i[1]:
+                return i[0]
 
     def remove(self, value: Any) -> None:
         index = self.index(value)
@@ -166,5 +164,5 @@ if __name__ == '__main__':
     print(LinkedList.__repr__(ll))
     ll.insert(3, 5)
     print(LinkedList.__repr__(ll))
-    LinkedList.remove(ll, 4)
+    print(LinkedList.index(ll, 2))
     print(ll)
