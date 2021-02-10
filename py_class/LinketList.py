@@ -43,7 +43,7 @@ class LinkedList:
         """Конструктор связного списка"""
         self.__len = 0
         self.head = None
-        self.tail = None# Node
+        self.tail = None
 
         if data:  # ToDo Проверить, что объект итерируемый. Метод self.is_iterable
             for value in data:
@@ -88,9 +88,7 @@ class LinkedList:
         if self.head is None:
             self.head = append_node
         else:
-            self.tail = self.head
-            for _ in range(self.__len - 1):
-                self.tail = self.tail.next
+            self.tail = self.__step_by_step(self.__len - 1)
             self.__linked_nodes(self.tail, append_node)
 
         self.__len += 1
