@@ -10,7 +10,7 @@
 from typing import Iterator, Tuple, Hashable, Any
 
 
-class MyDict(dict):  # ToDo Наследование от класса dict
+class MyDict(dict):
     def __iter__(self) -> Iterator[Tuple[Hashable, Any]]:
         for i, k in self.items():
             yield i, k
