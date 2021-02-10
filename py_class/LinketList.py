@@ -123,6 +123,7 @@ class LinkedList:
 
     def clear(self) -> None:
         self.__len = 0
+        self.head = None
 
     def index(self, value: Any) -> int:
         ...
