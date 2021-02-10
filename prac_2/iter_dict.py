@@ -12,10 +12,4 @@ from typing import Iterator, Tuple, Hashable, Any
 
 class MyDict(dict):
     def __iter__(self) -> Iterator[Tuple[Hashable, Any]]:
-        for i, k in self.items():
-            yield i, k
-
-
-if __name__ == '__main__':
-    ll = {1: 'c', 2: '2'}
-    print(next(MyDict.__iter__(ll)))
+        return iter(self.items())
