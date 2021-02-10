@@ -5,7 +5,7 @@
     Можно пользоваться любыми готовыми итераторами, функциями-генераторами, самостоятельно реализовывать метод __next__.
 """
 
-from typing import Any, Sequence, Optional
+from typing import Any, Sequence, Optional, Iterator
 
 
 class LinkedList:
@@ -47,7 +47,8 @@ class LinkedList:
             return f"{self.value}"
 
         def __del__(self):
-            print(f"Удален узел {self}")
+            ...
+            # print(f"Удален узел {self}")
 
     def __init__(self, data: Sequence = None):
         """Конструктор связного списка"""
@@ -105,12 +106,24 @@ class LinkedList:
     def __linked_nodes(left: Node, right: Optional[Node]) -> None:
         left.next = right
 
-    def __iter__(self):  # ToDo перегрузить метод для работы с циклом for
-        print('Вызван метод __iter__')
-        ...
+    def __nodes_iterator(self) -> Iterator[Node]:
+        current_node = self.head
+        for _ in range(self.__len):
+            yield current_node.value
+            current_node = current_node.next
+
+    def __iter__(self) -> Iterator:
+        print('вызван __iter__')
+        return self.__nodes_iterator()
 
 
 if __name__ == '__main__':
     ll = LinkedList([1, 2, 3, 4, 5])
-    for value in ll:
-        print(value)
+    iter_1 = iter(ll)
+    print(next(iter_1))
+    print(next(iter_1))
+    iter_2 = iter(ll)
+    print(next(iter_2))
+    print(next(iter_2))
+    print(next(iter_1))
+    print(next(iter_2))
