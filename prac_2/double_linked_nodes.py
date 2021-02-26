@@ -60,35 +60,19 @@ class Node:
 class DoubleLinkedNode(Node):
     def __init__(self, value: Any,
                  next_: Optional['Node'] = None,
-                 prev: Optional['Node'] = None):
-        # ToDo расширить возможности базового конструтора с учетом особенностей двусвязного списка
+                 prev: Optional['Node'] = None, prev_=None):
         super().__init__(value, next_)
         self.prev = prev_
 
     @property
     def prev(self):
-        return self.prev
+        return self.__prev
 
     @prev.setter
-    def prev(self, prev):
+    def prev(self, prev_):
         self._check_node(prev_)
+        self.__prev = prev_
 
     def __repr__(self) -> str:
         """Метод должен возвращать строку, показывающую, как может быть создан экземпляр."""
-        # ToDo перегрузить метод
         return f"Node({self.value}, {self.prev}, {self.next})"
-
-
-if __name__ == '__main__':
-    first_node = DoubleLinkedNode(5)
-    second_node = DoubleLinkedNode(10)
-
-    print(repr(first_node))
-    print(repr(second_node))
-
-    head = first_node
-    first_node.next = second_node
-    second_node.prev = first_node
-
-    print(first_node.next)
-    print(second_node.prev)
