@@ -1,4 +1,4 @@
-from typing import Any, Sequence, Optional
+from typing import Any, Sequence, Optional, Iterator
 from collections.abc import Iterable
 
 
@@ -82,6 +82,15 @@ class LinkedList:
     def __setitem__(self, key: int, value: Any):
         current_node = self.__step_by_step(key)
         current_node.value = value
+
+    def __nodes_iterator(self) -> Iterator[Node]:
+        current_node = self.head
+        for _ in range(self.__len):
+            yield current_node.value
+            current_node = current_node.next
+
+    def __iter__(self) -> Iterator:
+        return self.__nodes_iterator()
 
     def append(self, value: Any):
         """Добавление элемента в конец связного списка"""
