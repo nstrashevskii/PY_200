@@ -158,9 +158,6 @@ class LinkedList:
             self.tail = self.__step_by_step(index - 1)
             self.__len -= 1
 
-    def sort(self) -> None:
-        ...
-
     @staticmethod
     def is_iterable(data: Sequence) -> bool:
         """Метод для проверки является ли объект итерируемым"""
