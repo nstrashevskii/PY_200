@@ -75,7 +75,6 @@ class DoubleLinkedNode(Node):
 
     def __repr__(self) -> str:
         """Метод должен возвращать строку, показывающую, как может быть создан экземпляр."""
-        # ToDo перегрузить метод
         return f"Node({self.value}, {self.prev}, {self.next})"
 
 
