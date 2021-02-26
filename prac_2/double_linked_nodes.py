@@ -76,18 +76,3 @@ class DoubleLinkedNode(Node):
     def __repr__(self) -> str:
         """Метод должен возвращать строку, показывающую, как может быть создан экземпляр."""
         return f"Node({self.value}, {self.prev}, {self.next})"
-
-
-if __name__ == '__main__':
-    first_node = DoubleLinkedNode(5)
-    second_node = DoubleLinkedNode(10)
-
-    print(repr(first_node))
-    print(repr(second_node))
-
-    head = first_node
-    first_node.next = second_node
-    second_node.prev = first_node
-
-    print(first_node.next)
-    print(second_node.prev)
