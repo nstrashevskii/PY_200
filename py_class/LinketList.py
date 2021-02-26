@@ -1,4 +1,5 @@
-from typing import Any, Sequence, Optional
+from typing import Any, Sequence, Optional, Iterator
+from collections.abc import Iterable
 
 
 class LinkedList:
@@ -7,6 +8,7 @@ class LinkedList:
         Внутренний класс, класса LinkedList.
         Пользователь напрямую не работает с узлами списка, узлами оперирует список.
         """
+
         def __init__(self, value: Any, next_: Optional['Node'] = None):
             """
             Создаем новый узел для односвязного списка
@@ -40,79 +42,134 @@ class LinkedList:
 
     def __init__(self, data: Sequence = None):
         """Конструктор связного списка"""
-        self.len_ = 0
-        self.head = None  # Node
+        self.__len = 0
+        self.head = None
+        self.tail = None
 
-        if data:  # ToDo Проверить, что объект итерируемый. Метод self.is_iterable
+        if data and self.is_iterable(data):
             for value in data:
                 self.append(value)
 
     def __str__(self):
         """Вызывается функциями str, print и format. Возвращает строковое представление объекта."""
-        result = []
-        current_node = self.head
-
-        for _ in range(self.len_ - 1):
-            result.append(current_node.value)
-            current_node = current_node.next
-
-        result.append(current_node.value)
-
-        return f"{result}"
+        return f"{[value for value in self]}"
 
     def __repr__(self):
         """Метод должен возвращать строку, показывающую, как может быть создан экземпляр."""
-        return ""
+        return f"{type(self).__name__}({[value for value in self]})"
 
     def __len__(self):
-        ...
+        return self.__len
+
+    def __step_by_step(self, index: int):
+        """Встроенный метод, который возвращает узел по указанному индексу"""
+        if not isinstance(index, int):
+            raise TypeError('Введенное значение не int')
+
+        if not 0 <= index < self.__len:
+            raise IndexError('Индекс вышел за пределы списка')
+
+        current_node = self.head
+
+        for _ in range(index):
+            current_node = current_node.next
+        return current_node
 
     def __getitem__(self, item: int) -> Any:
-        ...
+        current_node = self.__step_by_step(item)
+        return current_node.value
 
-    def __setitem__(self, key, value):
-        ...
+    def __setitem__(self, key: int, value: Any):
+        current_node = self.__step_by_step(key)
+        current_node.value = value
+
+    def __nodes_iterator(self) -> Iterator[Node]:
+        current_node = self.head
+        for _ in range(self.__len):
+            yield current_node.value
+            current_node = current_node.next
+
+    def __iter__(self) -> Iterator:
+        return self.__nodes_iterator()
 
     def append(self, value: Any):
         """Добавление элемента в конец связного списка"""
         append_node = self.Node(value)
         if self.head is None:
-            self.head = append_node
+            self.head = self.tail = append_node
         else:
-            tail = self.head  # ToDo Завести атрибут self.tail, который будет хранить последний узел
-            for _ in range(self.len_ - 1):
-                tail = tail.next
-            self.__linked_nodes(tail, append_node)
+            self.__linked_nodes(self.tail, append_node)
+            self.tail = append_node
 
-        self.len_ += 1
+        self.__len += 1
 
     @staticmethod
     def __linked_nodes(left: Node, right: Optional[Node]) -> None:
         left.next = right
 
     def to_list(self) -> list:
-        ...
+        return [value for value in self]
 
     def insert(self, index: int, value: Any) -> None:
-        ...
+        if index == 0:
+            insert_node = self.Node(value)
+            self.__linked_nodes(insert_node, self.head)
+            self.head = insert_node
+            self.__len += 1
+
+        elif 1 <= index <= self.__len:
+            insert_node = self.Node(value)
+            pref_node = self.__step_by_step(index - 1)
+            current_node = pref_node.next
+
+            self.__linked_nodes(insert_node, current_node)
+            self.__linked_nodes(pref_node, insert_node)
+
+            self.__len += 1
+
+        elif index > self.__len:
+            self.append(value)
 
     def clear(self) -> None:
-        ...
+        self.__len = 0
+        self.head = None
 
     def index(self, value: Any) -> int:
-        ...
+        for i in enumerate(self):
+            if value == i[1]:
+                return i[0]
 
     def remove(self, value: Any) -> None:
-        ...
+        index = self.index(value)
+        if index == 0:
+            self.head = self.__step_by_step(1)
+            self.__len -= 1
 
-    def sort(self) -> None:
-        ...
+        elif 1 <= index < self.__len - 1:
+            pref_node = self.__step_by_step(index - 1)
+            current_node = self.__step_by_step(index + 1)
 
-    def is_iterable(self, data) -> bool:
+            self.__linked_nodes(pref_node, current_node)
+
+            self.__len -= 1
+        elif index == self.__len - 1:
+            del_node = self.Node(value)
+            print(del_node)
+            self.tail = self.__step_by_step(index - 1)
+            self.__len -= 1
+
+    @staticmethod
+    def is_iterable(data: Sequence) -> bool:
         """Метод для проверки является ли объект итерируемым"""
-        ...
+        return isinstance(data, Iterable)
 
 
 if __name__ == '__main__':
     ll = LinkedList([1, 2, 3, 4])
+    print(LinkedList.__repr__(ll))
+    ll.insert(3, 5)
+    print(LinkedList.__repr__(ll))
+    print(LinkedList.index(ll, 2))
     print(ll)
+    ll.append(67)
+    print(LinkedList.__repr__(ll))
