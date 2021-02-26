@@ -86,10 +86,10 @@ class LinkedList:
         """Добавление элемента в конец связного списка"""
         append_node = self.Node(value)
         if self.head is None:
-            self.head = append_node
+            self.head = self.tail = append_node
         else:
-            self.tail = self.__step_by_step(self.__len - 1)
             self.__linked_nodes(self.tail, append_node)
+            self.tail = append_node
 
         self.__len += 1
 
@@ -164,3 +164,5 @@ if __name__ == '__main__':
     print(LinkedList.__repr__(ll))
     print(LinkedList.index(ll, 2))
     print(ll)
+    ll.append(67)
+    print(LinkedList.__repr__(ll))
