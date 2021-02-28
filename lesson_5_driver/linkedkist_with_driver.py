@@ -22,7 +22,6 @@ class LinkedListWithDriver(LinkedList):
 
     @property
     def driver(self):
-        """Getter возвращает следующий узел связного списка"""
         return self.__driver
 
     @driver.setter
