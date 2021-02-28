@@ -47,7 +47,16 @@ class JsonFileDriver(IStructureDriver):
 class SimpleFileDriver(IStructureDriver):
     def __init__(self, file_name):
         self.file_name = file_name
-        ...
+
+    def read(self) -> Sequence:
+        with open(self.file_name, 'w') as f:
+            return [int(line) for line in f]
+
+    def write(self, data: Sequence) -> None:
+        with open(self.file_name, 'w') as f:
+            for value in data:
+                f.write(repr(value))
+                f.write('\n')
 
 
 if __name__ == '__main__':
