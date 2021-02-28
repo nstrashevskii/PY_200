@@ -16,10 +16,9 @@ from py_class.LinketList import LinkedList
 from lesson_5_driver.driver import IStructureDriver, JsonFileDriver
 
 
-class LinkedListWithDriver(...):
+class LinkedListWithDriver(LinkedList):
     def __init__(self, data, driver: IStructureDriver = None):
-        # ToDo вызвать конструктор базового класса LinkedList
-        ...
+        super().__init__(data)
         self.__driver = driver
 
     def read(self):
