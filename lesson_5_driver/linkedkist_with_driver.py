@@ -13,7 +13,8 @@
 """
 
 from py_class.LinketList import LinkedList
-from lesson_5_driver.driver import IStructureDriver, JsonFileDriver, SimpleFileDriver
+from lesson_5_driver.driver import IStructureDriver
+from lesson_5_driver.b_fabric_method import FabricDriverBuilder
 
 
 class LinkedListWithDriver(LinkedList):
@@ -45,8 +46,7 @@ class LinkedListWithDriver(LinkedList):
 
 
 if __name__ == '__main__':
-    # driver = JsonFileDriver('tmp.json')
     ll = LinkedListWithDriver([1, 2, 3, 4, 57])
-    ll.driver = SimpleFileDriver('tmp.txt')
+    ll.driver = FabricDriverBuilder.get_driver()
 
     ll.write()
