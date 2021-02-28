@@ -15,6 +15,7 @@
 from py_class.LinketList import LinkedList
 from lesson_5_driver.driver import IStructureDriver, JsonFileDriver, SimpleFileDriver
 
+
 class LinkedListWithDriver(LinkedList):
     def __init__(self, data, driver_: IStructureDriver = None):
         super().__init__(data)
@@ -25,7 +26,7 @@ class LinkedListWithDriver(LinkedList):
         return self.__driver
 
     @driver.setter
-    def driver(self, driver_):
+    def driver(self, driver_: IStructureDriver):
         if not isinstance(driver_, IStructureDriver) and driver_ is not None:
             msg = f"Драйвер должен быть экземпляром класса {IStructureDriver}"
             raise TypeError(msg)
@@ -45,7 +46,7 @@ class LinkedListWithDriver(LinkedList):
 
 if __name__ == '__main__':
     # driver = JsonFileDriver('tmp.json')
-    driver = SimpleFileDriver('tmp.txt')
-    ll = LinkedListWithDriver([1, 2, 3, 4], driver_=driver)
+    ll = LinkedListWithDriver([1, 2, 3, 4, 57])
+    ll.driver = SimpleFileDriver('tmp.txt')
 
     ll.write()
