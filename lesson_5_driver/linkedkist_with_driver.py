@@ -13,24 +13,40 @@
 """
 
 from py_class.LinketList import LinkedList
-from lesson_5_driver.driver import IStructureDriver, JsonFileDriver
+from lesson_5_driver.driver import IStructureDriver
+from lesson_5_driver.b_fabric_method import FabricDriverBuilder
 
 
-class LinkedListWithDriver(...):
-    def __init__(self, data, driver: IStructureDriver = None):
-        # ToDo вызвать конструктор базового класса LinkedList
-        ...
-        self.__driver = driver
+class LinkedListWithDriver(LinkedList):
+    def __init__(self, data, driver_: IStructureDriver = None):
+        super().__init__(data)
+        self.__driver = driver_
+
+    @property
+    def driver(self):
+        return self.__driver
+
+    @driver.setter
+    def driver(self, driver_: IStructureDriver):
+        if not isinstance(driver_, IStructureDriver) and driver_ is not None:
+            msg = f"Драйвер должен быть экземпляром класса {IStructureDriver}"
+            raise TypeError(msg)
+        self.__driver = driver_
 
     def read(self):
         """Взять драйвер и считать из него информацию в LinkedList"""
-        ...
+        data_from_driver = self.__driver.read(self)
+        self.clear()
+        for value in data_from_driver:
+            self.append(value)
 
     def write(self):
         """Взять драйвер и записать в него информацию из LinkedList"""
-        ...
+        self.__driver.write(self)
 
 
 if __name__ == '__main__':
-    ll = LinkedListWithDriver([1, 2, 3, 4, 5])
+    ll = LinkedListWithDriver([1, 2, 3, 4, 57])
+    ll.driver = FabricDriverBuilder.get_driver()
+
     ll.write()
