@@ -26,11 +26,14 @@ class LinkedList:
         @next.setter
         def next(self, next_: Optional['Node']):
             """Setter проверяет и устанавливает следующий узел связного списка"""
-            if not isinstance(next_, self.__class__) and next_ is not None:
-                msg = f"Устанавливаемое значение должно быть экземпляром класса {self.__class__.__name__} " \
-                      f"или None, не {next_.__class__.__name__}"
-                raise TypeError(msg)
+            self._check_node(next_)
             self.__next = next_
+
+        def _check_node(self, node: 'Node'):
+            if not isinstance(node, self.__class__) and node is not None:
+                msg = f"Устанавливаемое значение должно быть экземпляром класса {self.__class__.__name__} " \
+                      f"или None, не {node.__class__.__name__}"
+                raise TypeError(msg)
 
         def __repr__(self):
             """Метод должен возвращать строку, показывающую, как может быть создан экземпляр."""
@@ -42,7 +45,7 @@ class LinkedList:
 
     def __init__(self, data: Sequence = None):
         """Конструктор связного списка"""
-        self.__len = 0
+        self._len = 0
         self.head = None
         self.tail = None
 
@@ -59,14 +62,14 @@ class LinkedList:
         return f"{type(self).__name__}({[value for value in self]})"
 
     def __len__(self):
-        return self.__len
+        return self._len
 
     def __step_by_step(self, index: int):
         """Встроенный метод, который возвращает узел по указанному индексу"""
         if not isinstance(index, int):
             raise TypeError('Введенное значение не int')
 
-        if not 0 <= index < self.__len:
+        if not 0 <= index < self._len:
             raise IndexError('Индекс вышел за пределы списка')
 
         current_node = self.head
@@ -85,7 +88,7 @@ class LinkedList:
 
     def __nodes_iterator(self) -> Iterator[Node]:
         current_node = self.head
-        for _ in range(self.__len):
+        for _ in range(self._len):
             yield current_node.value
             current_node = current_node.next
 
@@ -98,13 +101,13 @@ class LinkedList:
         if self.head is None:
             self.head = self.tail = append_node
         else:
-            self.__linked_nodes(self.tail, append_node)
+            self._linked_nodes(self.tail, append_node)
             self.tail = append_node
 
-        self.__len += 1
+        self._len += 1
 
     @staticmethod
-    def __linked_nodes(left: Node, right: Optional[Node]) -> None:
+    def _linked_nodes(left: Node, right: Optional[Node]) -> None:
         left.next = right
 
     def to_list(self) -> list:
@@ -113,25 +116,25 @@ class LinkedList:
     def insert(self, index: int, value: Any) -> None:
         if index == 0:
             insert_node = self.Node(value)
-            self.__linked_nodes(insert_node, self.head)
+            self._linked_nodes(insert_node, self.head)
             self.head = insert_node
-            self.__len += 1
+            self._len += 1
 
-        elif 1 <= index <= self.__len:
+        elif 1 <= index <= self._len:
             insert_node = self.Node(value)
             pref_node = self.__step_by_step(index - 1)
             current_node = pref_node.next
 
-            self.__linked_nodes(insert_node, current_node)
-            self.__linked_nodes(pref_node, insert_node)
+            self._linked_nodes(insert_node, current_node)
+            self._linked_nodes(pref_node, insert_node)
 
-            self.__len += 1
+            self._len += 1
 
-        elif index > self.__len:
+        elif index > self._len:
             self.append(value)
 
     def clear(self) -> None:
-        self.__len = 0
+        self._len = 0
         self.head = None
 
     def index(self, value: Any) -> int:
@@ -143,20 +146,20 @@ class LinkedList:
         index = self.index(value)
         if index == 0:
             self.head = self.__step_by_step(1)
-            self.__len -= 1
+            self._len -= 1
 
-        elif 1 <= index < self.__len - 1:
+        elif 1 <= index < self._len - 1:
             pref_node = self.__step_by_step(index - 1)
             current_node = self.__step_by_step(index + 1)
 
-            self.__linked_nodes(pref_node, current_node)
+            self._linked_nodes(pref_node, current_node)
 
-            self.__len -= 1
-        elif index == self.__len - 1:
+            self._len -= 1
+        elif index == self._len - 1:
             del_node = self.Node(value)
             print(del_node)
             self.tail = self.__step_by_step(index - 1)
-            self.__len -= 1
+            self._len -= 1
 
     @staticmethod
     def is_iterable(data: Sequence) -> bool:
