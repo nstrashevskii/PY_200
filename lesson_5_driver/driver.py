@@ -7,6 +7,7 @@
 from typing import Sequence
 from abc import ABC, abstractmethod
 import json
+import csv
 
 
 class IStructureDriver(ABC):
@@ -59,8 +60,25 @@ class SimpleFileDriver(IStructureDriver):
                 f.write('\n')
 
 
+class CSVDriver(IStructureDriver):
+    def __init__(self, csv_filename):
+        self.csv_filename = csv_filename
+
+    def read(self) -> Sequence:
+        with open(self.csv_filename, newline='') as f:
+            input_ = csv.reader(f)
+            for i in input_:
+                return i
+
+    def write(self, data: Sequence) -> None:
+        output_ = [value for value in data]
+        with open(self.csv_filename, 'w', newline='') as f:
+            data_writer = csv.writer(f, delimiter=' ', quotechar='|')
+            data_writer.writerow(output_)
+
+
 if __name__ == '__main__':
-    driver = JsonFileDriver('tmp.json')
+    driver = CSVDriver('tmp.csv')
     driver.write([1, 2, 3])
     data = driver.read()
     print(data)

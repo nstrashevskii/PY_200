@@ -35,7 +35,7 @@ class SimpleFileBuilder(DriverBuilder):
 
     @classmethod
     def build(cls) -> IStructureDriver:
-        filename = input('Введите название json файла: (.txt)').strip()
+        filename = input('Введите название txt файла: (.txt)').strip()
         filename = filename or cls.DEFAULT_NAME
         if not filename.endswith('.txt'):
             filename = f'{filename}.txt'
@@ -43,10 +43,24 @@ class SimpleFileBuilder(DriverBuilder):
         return SimpleFileDriver(filename)
 
 
+class CSVFileBuilder(DriverBuilder):
+    DEFAULT_NAME = 'untitled.csv'
+
+    @classmethod
+    def build(cls) -> IStructureDriver:
+        filename = input('Введите название csv файла: (.csv)').strip()
+        filename = filename or cls.DEFAULT_NAME
+        if not filename.endswith('.csv'):
+            filename = f'{filename}.csv'
+
+        return SimpleFileDriver(filename)
+
+
 class FabricDriverBuilder:
     DRIVER_BUILDER = {
         'json_file': JsonFileBuilder,
-        'simple_file': SimpleFileBuilder
+        'simple_file': SimpleFileBuilder,
+        'csv_file': CSVFileBuilder
     }
     DEFAULT_DRIVER = 'json_file'
 
