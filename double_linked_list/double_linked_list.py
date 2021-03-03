@@ -28,8 +28,8 @@ from py_class.LinketList import LinkedList
 class DoubleLinkedList(LinkedList):
     class DoubleLinkedNode(LinkedList.Node):
         def __init__(self, value: Any,
-                     next_: Optional['Node'] = None,
-                     prev_: Optional['Node'] = None):
+                     next_: Optional['DoubleLinkedNode'] = None,
+                     prev_: Optional['DoubleLinkedNode'] = None):
             super().__init__(value, next_)
             self.prev = prev_
 
@@ -38,7 +38,7 @@ class DoubleLinkedList(LinkedList):
             return self.__prev
 
         @prev.setter
-        def prev(self, prev_):
+        def prev(self, prev_: Optional['DoubleLinkedNode']):
             self._check_node(prev_)
             self.__prev = prev_
 
@@ -50,9 +50,10 @@ class DoubleLinkedList(LinkedList):
         super().__init__(data)
 
     @staticmethod
-    def __linked_nodes(left, right) -> None:
+    def _linked_nodes(left: DoubleLinkedNode, right: DoubleLinkedNode) -> None:
+        print('_linked_nodes_Double')
         left.next = right
-        right = left.prev
+        right.prev = left
 
 
 if __name__ == '__main__':
